@@ -137,7 +137,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		if ( ! is_file( $this->file ) && ! preg_match( '|^https?://|', $this->file ) )
 			return new WP_Error( 'error_loading_image', __('File doesn&#8217;t exist?'), $this->file );
 
-		wp_raise_memory_limit( 'image' );// Modified For SAE, by JackieAtHome (www.jackieathome.net)
+		// wp_raise_memory_limit( 'image' );// Modified For SAE, by JackieAtHome (www.jackieathome.net)
 
 		try {
 			$this->image = new Imagick();

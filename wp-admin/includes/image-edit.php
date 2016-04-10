@@ -591,7 +591,7 @@ function image_edit_apply_changes( $image, $changes ) {
 function stream_preview_image( $post_id ) {
 	$post = get_post( $post_id );
 
-	wp_raise_memory_limit( 'admin' );// Modified For SAE, by JackieAtHome (www.jackieathome.net)
+	// wp_raise_memory_limit( 'admin' );// Modified For SAE, by JackieAtHome (www.jackieathome.net)
 
 	$img = wp_get_image_editor( _load_image_to_edit_path( $post_id ) );
 
