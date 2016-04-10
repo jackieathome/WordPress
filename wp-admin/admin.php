@@ -138,7 +138,7 @@ else
 	require(ABSPATH . 'wp-admin/menu.php');
 
 if ( current_user_can( 'manage_options' ) ) {
-	wp_raise_memory_limit( 'admin' );
+	// wp_raise_memory_limit( 'admin' ); // Modified For SAE, by JackieAtHome (www.jackieathome.net)
 }
 
 /**

@@ -298,7 +298,8 @@ function update_right_now_message() {
 
 	$msg .= sprintf( '<span id="wp-version">' . $content . '</span>', get_bloginfo( 'version', 'display' ), $theme_name );
 
-	echo "<p id='wp-version-message'>$msg</p>";
+	// echo "<p id='wp-version-message'>$msg</p>";
+	echo "<p id='wp-version-message'>$msg<b> Modified by <a href='http://www.jackieathome.net'>JackieAtHome</a>, Project page <a href='https://github.com/jackieathome/WordPress'>WordPress For SAE</a></b></p>";
 }
 
 /**

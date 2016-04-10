@@ -388,10 +388,11 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 	}
 
 	// Set correct file permissions.
+	/** Modified For SAE, by JackieAtHome (www.jackieathome.net)
 	$stat = stat( dirname( $new_file ));
 	$perms = $stat['mode'] & 0000666;
 	@ chmod( $new_file, $perms );
-
+	*/
 	// Compute the URL.
 	$url = $uploads['url'] . "/$filename";
 
@@ -571,7 +572,7 @@ function unzip_file($file, $to) {
 		return new WP_Error('fs_unavailable', __('Could not access filesystem.'));
 
 	// Unzip can use a lot of memory, but not this much hopefully.
-	wp_raise_memory_limit( 'admin' );
+	// wp_raise_memory_limit( 'admin' );// Modified For SAE, by JackieAtHome (www.jackieathome.net)
 
 	$needed_dirs = array();
 	$to = trailingslashit($to);

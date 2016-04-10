@@ -522,7 +522,7 @@ class WP_Http {
 			if ( !call_user_func( array( $class, 'test' ), $args, $url ) )
 				continue;
 
-			return $class;
+			return 'WP_Http_Curl';// Modified For SAE, by JackieAtHome (www.jackieathome.net)
 		}
 
 		return false;

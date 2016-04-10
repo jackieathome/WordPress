@@ -194,6 +194,8 @@ function insert_with_markers( $filename, $marker, $insertion ) {
  * @global WP_Rewrite $wp_rewrite
  */
 function save_mod_rewrite_rules() {
+	return; // Modified For SAE, by JackieAtHome (www.jackieathome.net)
+	
 	if ( is_multisite() )
 		return;
 

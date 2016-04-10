@@ -96,7 +96,7 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 			return new WP_Error( 'error_loading_image', __('File doesn&#8217;t exist?'), $this->file );
 
 		// Set artificially high because GD uses uncompressed images in memory.
-		wp_raise_memory_limit( 'image' );
+		// wp_raise_memory_limit( 'image' );// Modified For SAE, by JackieAtHome (www.jackieathome.net)
 
 		$this->image = @imagecreatefromstring( file_get_contents( $this->file ) );
 
@@ -415,9 +415,11 @@ class WP_Image_Editor_GD extends WP_Image_Editor {
 		}
 
 		// Set correct file permissions
+		/** Modified For SAE, by JackieAtHome (www.jackieathome.net)
 		$stat = stat( dirname( $filename ) );
 		$perms = $stat['mode'] & 0000666; //same permissions as parent folder, strip off the executable bits
 		@ chmod( $filename, $perms );
+		*/
 
 		/**
 		 * Filters the name of the saved image file.

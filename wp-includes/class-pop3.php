@@ -59,8 +59,10 @@ class POP3 {
         if(!empty($timeout)) {
             settype($timeout,"integer");
             $this->TIMEOUT = $timeout;
+            /** Modified For SAE, by JackieAtHome (www.jackieathome.net)
             if (!ini_get('safe_mode'))
                 set_time_limit($timeout);
+            */
         }
         return true;
     }
@@ -73,8 +75,10 @@ class POP3 {
 	}
 
     function update_timer () {
+    	/** Modified For SAE, by JackieAtHome (www.jackieathome.net)
         if (!ini_get('safe_mode'))
             set_time_limit($this->TIMEOUT);
+        */
         return true;
     }
 

@@ -127,7 +127,7 @@ if ( isset($_POST['permalink_structure']) || isset($_POST['category_base']) ) {
 	}
 
 	$message = __( 'Permalink structure updated.' );
-
+	/** Modified For SAE, by JackieAtHome (www.jackieathome.net)
 	if ( $iis7_permalinks ) {
 		if ( $permalink_structure && ! $using_index_permalinks && ! $writable ) {
 			$message = __( 'You should update your web.config now.' );
@@ -137,6 +137,7 @@ if ( isset($_POST['permalink_structure']) || isset($_POST['category_base']) ) {
 	} elseif ( ! $is_nginx && $permalink_structure && ! $using_index_permalinks && ! $writable && $update_required ) {
 		$message = __( 'You should update your .htaccess now.' );
 	}
+	*/
 
 	if ( ! get_settings_errors() ) {
 		add_settings_error( 'general', 'settings_updated', $message, 'updated' );
@@ -151,6 +152,7 @@ if ( isset($_POST['permalink_structure']) || isset($_POST['category_base']) ) {
 flush_rewrite_rules();
 
 require( ABSPATH . 'wp-admin/admin-header.php' );
+
 ?>
 <div class="wrap">
 <h1><?php echo esc_html( $title ); ?></h1>
@@ -231,7 +233,7 @@ printf( __( 'If you like, you may enter custom structures for your category and 
 
 <?php submit_button(); ?>
   </form>
-<?php if ( !is_multisite() ) { ?>
+<?php if ( false && !is_multisite() ) { // Modified For SAE, by JackieAtHome (www.jackieathome.net) ?>
 <?php if ( $iis7_permalinks ) :
 	if ( isset($_POST['submit']) && $permalink_structure && ! $using_index_permalinks && ! $writable ) :
 		if ( file_exists($home_path . 'web.config') ) : ?>

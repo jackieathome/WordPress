@@ -3178,7 +3178,7 @@ function wp_load_image( $file ) {
 		return __('The GD image library is not installed.');
 
 	// Set artificially high because GD uses uncompressed images in memory.
-	wp_raise_memory_limit( 'image' );
+	// wp_raise_memory_limit( 'image' );// Modified For SAE, by JackieAtHome (www.jackieathome.net)
 
 	$image = imagecreatefromstring( file_get_contents( $file ) );
 
@@ -3634,7 +3634,7 @@ function post_permalink( $post_id = 0 ) {
 function wp_get_http( $url, $file_path = false, $red = 1 ) {
 	_deprecated_function( __FUNCTION__, '4.4.0', 'WP_Http' );
 
-	@set_time_limit( 60 );
+	// @set_time_limit( 60 );// Modified For SAE, by JackieAtHome (www.jackieathome.net)
 
 	if ( $red > 5 )
 		return false;
