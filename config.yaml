@@ -1,0 +1,16 @@
+name: jackieathome
+version: 2
+handle:
+- rewrite: if ( !is_dir() && !is_file()) goto "index.php?%{QUERY_STRING}"
+
+- expire: if(path ~ "\.png$") time 2592000
+- expire: if(path ~ "\.jpg$") time 2592000
+- expire: if(path ~ "\.ico$") time 2592000
+- expire: if(path ~ "\.gif$") time 2592000
+- expire: if(path ~ "\.css$") time 2592000
+- expire: if(path ~ "\.js$") time 2592000
+
+- compress: if(path ~ "\.css$") compress
+- compress: if(path ~ "\.js$") compress
+- compress: if ( out_header["Content-type"] ~ "text/css" ) compress
+- compress: if ( out_header["Content-type"] ~ "text/javascript" ) compress
