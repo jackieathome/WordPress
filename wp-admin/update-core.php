@@ -58,8 +58,10 @@ function list_core_update( $update ) {
 	} else {
 		if ( $current ) {
 			$message = sprintf( __( 'If you need to re-install version %s, you can do so here or download the package and re-install manually:' ), $version_string );
+			/** Modified For SAE, by JackieAtHome (www.jackieathome.net)
 			$submit = __('Re-install Now');
-			$form_action = 'update-core.php?action=do-core-reinstall';
+			$form_action = 'update-core.php?action=do-core-reinstall'
+			*/;
 		} else {
 			$php_compat     = version_compare( $php_version, $update->php_version, '>=' );
 			if ( file_exists( WP_CONTENT_DIR . '/db.php' ) && empty( $wpdb->is_mysql ) )
@@ -91,10 +93,10 @@ function list_core_update( $update ) {
 	echo '<input name="locale" value="'. esc_attr($update->locale) .'" type="hidden"/>';
 	if ( $show_buttons ) {
 		if ( $first_pass ) {
-			submit_button( $submit, $current ? 'button' : 'primary regular', 'upgrade', false );
+			// submit_button( $submit, $current ? 'button' : 'primary regular', 'upgrade', false );// Modified For SAE, by JackieAtHome (www.jackieathome.net)
 			$first_pass = false;
 		} else {
-			submit_button( $submit, 'button', 'upgrade', false );
+			// submit_button( $submit, 'button', 'upgrade', false );// Modified For SAE, by JackieAtHome (www.jackieathome.net)
 		}
 		echo '&nbsp;<a href="' . esc_url( $update->download ) . '" class="button">' . $download . '</a>&nbsp;';
 	}

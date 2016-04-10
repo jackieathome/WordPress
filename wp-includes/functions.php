@@ -1577,7 +1577,13 @@ function wp_get_original_referer() {
  */
 function wp_mkdir_p( $target ) {
 	$wrapper = null;
-
+	// Modified For SAE, by JackieAtHome (www.jackieathome.net) begin
+	if ( substr($target, 0, 10) == 'saestor://' ) {
+		return true;
+	}
+	$target = str_replace( '//', '/', $target );
+	// Modified For SAE, by JackieAtHome (www.jackieathome.net) end
+	/** Modified For SAE, by JackieAtHome (www.jackieathome.net)
 	// Strip the protocol.
 	if ( wp_is_stream( $target ) ) {
 		list( $wrapper, $target ) = explode( '://', $target, 2 );
@@ -1590,6 +1596,7 @@ function wp_mkdir_p( $target ) {
 	if ( $wrapper !== null ) {
 		$target = $wrapper . '://' . $target;
 	}
+	*/
 
 	/*
 	 * Safe mode fails with a trailing slash under certain PHP versions.
@@ -1979,7 +1986,12 @@ function _wp_upload_dir( $time = null ) {
 			$url = trailingslashit( $siteurl ) . 'files';
 		}
 	}
-
+	// Modified For SAE, by JackieAtHome (www.jackieathome.net) begin 
+	if(!defined(SAE_STORAGE)) define('SAE_STORAGE', 'wordpress');
+	$dir = 'saestor://'.SAE_STORAGE.SAE_DIR;
+	$url = 'http://' . $_SERVER['HTTP_APPNAME'] . '-'.SAE_STORAGE.'.stor.sinaapp.com'.SAE_DIR;
+	// Modified For SAE, by JackieAtHome (www.jackieathome.net) end
+	
 	$basedir = $dir;
 	$baseurl = $url;
 

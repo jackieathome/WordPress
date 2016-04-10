@@ -106,7 +106,7 @@ if ( isset($_POST['permalink_structure']) || isset($_POST['category_base']) ) {
 $category_base       = get_option( 'category_base' );
 $tag_base            = get_option( 'tag_base' );
 $update_required     = false;
-
+/** Modified For SAE, by JackieAtHome (www.jackieathome.net)
 if ( $iis7_permalinks ) {
 	if ( ( ! file_exists($home_path . 'web.config') && win_is_writable($home_path) ) || win_is_writable($home_path . 'web.config') )
 		$writable = true;
@@ -124,7 +124,8 @@ if ( $iis7_permalinks ) {
 		$update_required = ( $new_rules !== $existing_rules );
 	}
 }
-
+*/
+$writable = true;// Modified For SAE, by JackieAtHome (www.jackieathome.net)
 if ( $wp_rewrite->using_index_permalinks() )
 	$usingpi = true;
 else
@@ -136,6 +137,7 @@ require( ABSPATH . 'wp-admin/admin-header.php' );
 
 if ( ! empty( $_GET['settings-updated'] ) ) : ?>
 <div id="message" class="updated notice is-dismissible"><p><?php
+/** Modified For SAE, by JackieAtHome (www.jackieathome.net)
 if ( ! is_multisite() ) {
 	if ( $iis7_permalinks ) {
 		if ( $permalink_structure && ! $usingpi && ! $writable ) {
@@ -157,6 +159,8 @@ if ( ! is_multisite() ) {
 } else {
 	_e('Permalink structure updated.');
 }
+*/
+_e('Permalink structure updated.');
 ?>
 </p></div>
 <?php endif; ?>
@@ -240,7 +244,7 @@ printf( __( 'If you like, you may enter custom structures for your category and 
 
 <?php submit_button(); ?>
   </form>
-<?php if ( !is_multisite() ) { ?>
+<?php if ( false && !is_multisite() ) { // Modified For SAE, by JackieAtHome (www.jackieathome.net) ?>
 <?php if ( $iis7_permalinks ) :
 	if ( isset($_POST['submit']) && $permalink_structure && ! $usingpi && ! $writable ) :
 		if ( file_exists($home_path . 'web.config') ) : ?>

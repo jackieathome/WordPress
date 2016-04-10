@@ -62,7 +62,10 @@ $parent_file = 'tools.php';
 	</div>
 <?php endif; ?>
 <p><?php _e('If you have posts or comments in another system, WordPress can import those into this site. To get started, choose a system to import from below:'); ?></p>
-
+<p style="color:red">While it is time consuming to import data into mysql, your operation would be failed.</p>
+<?php 
+// Modified For SAE, by JackieAtHome (www.jackieathome.net)
+?>
 <?php
 
 $importers = get_importers();
