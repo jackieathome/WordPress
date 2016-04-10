@@ -1,0 +1,16 @@
+<appwizard><introduction><name>WordPress 3.8 on SAE</name><author>Gimhoy</author><icon></icon><homepage>http://blog.gimhoy.com</homepage><description><![CDATA[]]></description></introduction><platform><services><service>Mysql</service><service name="wordpress"  params="数据存储" private="false">Storage</service><service>KVDB</service><service size="1M">Memcache</service></services><appconfig><tpl><![CDATA[
+name: <<appname>>
+version: <<version>>
+handle:
+    
+    - rewrite:  if ( !is_dir() && !is_file()) goto "index.php?%{QUERY_STRING}"
+    
+    - expire: if(path ~ "\.png$") time 2592000
+    - expire: if(path ~ "\.jpg$") time 2592000
+    - expire: if(path ~ "\.ico$") time 2592000
+    - expire: if(path ~ "\.gif$") time 2592000
+    - expire: if(path ~ "\.css$") time 2592000
+    - expire: if(path ~ "\.js$") time 2592000
+    - compress: if(path ~ "\.css$") compress
+    - compress: if(path ~ "\.js$") compress
+]]></tpl></appconfig></platform><code><initScript>index.php</initScript></code></appwizard>
