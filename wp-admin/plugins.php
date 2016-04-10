@@ -42,6 +42,8 @@ if ( $action ) {
 			$result = activate_plugin($plugin, self_admin_url('plugins.php?error=true&plugin=' . $plugin), is_network_admin() );
 			if ( is_wp_error( $result ) ) {
 				if ( 'unexpected_output' == $result->get_error_code() ) {
+					WP_DEBUG && file_put_contents('saemc://plugin_error', $result->get_error_data());// Modified For SAE, by JackieAtHome (www.jackieathome.net)
+					
 					$redirect = self_admin_url('plugins.php?error=true&charsout=' . strlen($result->get_error_data()) . '&plugin=' . $plugin . "&plugin_status=$status&paged=$page&s=$s");
 					wp_redirect(add_query_arg('_error_nonce', wp_create_nonce('plugin-activation-error_' . $plugin), $redirect));
 					exit;
@@ -479,7 +481,7 @@ if ( ! empty( $invalid ) ) {
 
 <div class="wrap">
 <h1><?php echo esc_html( $title );
-if ( ( ! is_multisite() || is_network_admin() ) && current_user_can('install_plugins') ) { ?>
+if ( false && ( ! is_multisite() || is_network_admin() ) && current_user_can('install_plugins') ) { // Modified For SAE, by JackieAtHome (www.jackieathome.net) ?>
  <a href="<?php echo self_admin_url( 'plugin-install.php' ); ?>" class="page-title-action"><?php echo esc_html_x('Add New', 'plugin'); ?></a>
 <?php
 }

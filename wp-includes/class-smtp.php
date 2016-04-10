@@ -273,6 +273,7 @@ class SMTP
         if ($streamok) {
             $socket_context = stream_context_create($options);
             //Suppress errors; connection failures are handled at a higher level
+            /** Modified For SAE, by JackieAtHome (www.jackieathome.net)
             $this->smtp_conn = @stream_socket_client(
                 $host . ":" . $port,
                 $errno,
@@ -281,6 +282,8 @@ class SMTP
                 STREAM_CLIENT_CONNECT,
                 $socket_context
             );
+            */
+            $this->smtp_conn = fsockopen($host, $port, $errno, $errstr);
         } else {
             //Fall back to fsockopen which should work in more places, but is missing some features
             $this->edebug(
@@ -315,9 +318,11 @@ class SMTP
         if (substr(PHP_OS, 0, 3) != 'WIN') {
             $max = ini_get('max_execution_time');
             // Don't bother if unlimited
+            /** Modified For SAE, by JackieAtHome (www.jackieathome.net)
             if ($max != 0 && $timeout > $max) {
                 @set_time_limit($timeout);
             }
+            */
             stream_set_timeout($this->smtp_conn, $timeout, 0);
         }
         // Get any announcement

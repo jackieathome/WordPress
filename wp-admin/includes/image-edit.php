@@ -346,6 +346,8 @@ function wp_save_image_file( $filename, $image, $mime_type, $post_id ) {
 
 		if ( null !== $saved )
 			return $saved;
+		
+		$tmpfile = tempnam(SAE_TMP_PATH, 'WPIMG');// Modified For SAE, by JackieAtHome (www.jackieathome.net)
 
 		switch ( $mime_type ) {
 			case 'image/jpeg':
@@ -353,9 +355,9 @@ function wp_save_image_file( $filename, $image, $mime_type, $post_id ) {
 				/** This filter is documented in wp-includes/class-wp-image-editor.php */
 				return imagejpeg( $image, $filename, apply_filters( 'jpeg_quality', 90, 'edit_image' ) );
 			case 'image/png':
-				return imagepng( $image, $filename );
+				return imagepng($image, $tmpfile) && copy($tmpfile, $filename);// Modified For SAE, by JackieAtHome (www.jackieathome.net)
 			case 'image/gif':
-				return imagegif( $image, $filename );
+				return imagepng($image, $tmpfile) && copy($tmpfile, $filename);// Modified For SAE, by JackieAtHome (www.jackieathome.net)
 			default:
 				return false;
 		}
@@ -587,7 +589,7 @@ function stream_preview_image( $post_id ) {
 	$post = get_post( $post_id );
 
 	/** This filter is documented in wp-admin/admin.php */
-	@ini_set( 'memory_limit', apply_filters( 'admin_memory_limit', WP_MAX_MEMORY_LIMIT ) );
+	// @ini_set( 'memory_limit', apply_filters( 'admin_memory_limit', WP_MAX_MEMORY_LIMIT ) );// Modified For SAE, by JackieAtHome (www.jackieathome.net)
 
 	$img = wp_get_image_editor( _load_image_to_edit_path( $post_id ) );
 

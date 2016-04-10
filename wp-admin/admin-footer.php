@@ -53,6 +53,7 @@ if ( !defined('ABSPATH') )
 		 */
 		echo apply_filters( 'update_footer', '' );
 		?>
+		Welcome to visit <a title="Jackie\'s Blog" href="http://www.jackieathome.net">JackieAtHome</a>.
 	</p>
 	<div class="clear"></div>
 </div>

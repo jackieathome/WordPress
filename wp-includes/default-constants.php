@@ -43,8 +43,10 @@ function wp_initial_constants() {
 		if ( false !== strpos( WP_MEMORY_LIMIT, 'G' ) )
 			$wp_limit_int *= 1024;
 
+		/** Modified For SAE, by JackieAtHome (www.jackieathome.net)
 		if ( -1 != $current_limit && ( -1 == WP_MEMORY_LIMIT || $current_limit_int < $wp_limit_int ) )
 			@ini_set( 'memory_limit', WP_MEMORY_LIMIT );
+		*/
 	}
 
 	if ( !defined('WP_CONTENT_DIR') )

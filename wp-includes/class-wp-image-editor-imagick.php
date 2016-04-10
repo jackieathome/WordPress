@@ -139,7 +139,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 
 		/** This filter is documented in wp-includes/class-wp-image-editor-imagick.php */
 		// Even though Imagick uses less PHP memory than GD, set higher limit for users that have low PHP.ini limits
-		@ini_set( 'memory_limit', apply_filters( 'image_memory_limit', WP_MAX_MEMORY_LIMIT ) );
+		// @ini_set( 'memory_limit', apply_filters( 'image_memory_limit', WP_MAX_MEMORY_LIMIT ) );// Modified For SAE, by JackieAtHome (www.jackieathome.net)
 
 		try {
 			$this->image = new Imagick( $this->file );

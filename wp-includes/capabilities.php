@@ -425,6 +425,12 @@ function map_meta_cap( $cap, $user_id ) {
  *              passed, whether the current user has the given meta capability for the given object.
  */
 function current_user_can( $capability ) {
+	// Modified For SAE, by JackieAtHome (www.jackieathome.net) begin
+	$block_action = array('install_plugins','install_themes', 'edit_plugins', 'update_plugins', 'install_plugins', 'update_themes','delete_plugins','delete_themes','delete_plugins');
+	if (in_array($capability, $block_action)) {
+		return false;
+	}
+	// Modified For SAE, by JackieAtHome (www.jackieathome.net) end
 	$current_user = wp_get_current_user();
 
 	if ( empty( $current_user ) )

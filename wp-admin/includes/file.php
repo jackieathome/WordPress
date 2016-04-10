@@ -381,10 +381,11 @@ function _wp_handle_upload( &$file, $overrides, $time, $action ) {
 	}
 
 	// Set correct file permissions.
+	/** Modified For SAE, by JackieAtHome (www.jackieathome.net)
 	$stat = stat( dirname( $new_file ));
 	$perms = $stat['mode'] & 0000666;
 	@ chmod( $new_file, $perms );
-
+	*/
 	// Compute the URL.
 	$url = $uploads['url'] . "/$filename";
 
@@ -559,7 +560,7 @@ function unzip_file($file, $to) {
 
 	// Unzip can use a lot of memory, but not this much hopefully
 	/** This filter is documented in wp-admin/admin.php */
-	@ini_set( 'memory_limit', apply_filters( 'admin_memory_limit', WP_MAX_MEMORY_LIMIT ) );
+	// @ini_set( 'memory_limit', apply_filters( 'admin_memory_limit', WP_MAX_MEMORY_LIMIT ) );// Modified For SAE, by JackieAtHome (www.jackieathome.net)
 
 	$needed_dirs = array();
 	$to = trailingslashit($to);

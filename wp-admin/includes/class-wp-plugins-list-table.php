@@ -423,8 +423,10 @@ class WP_Plugins_List_Table extends WP_List_Table {
 		if ( !is_multisite() || $this->screen->in_admin( 'network' ) ) {
 			if ( current_user_can( 'update_plugins' ) )
 				$actions['update-selected'] = __( 'Update' );
+			/** Modified For SAE, by JackieAtHome (www.jackieathome.net)
 			if ( current_user_can( 'delete_plugins' ) && ( 'active' != $status ) )
 				$actions['delete-selected'] = __( 'Delete' );
+			*/
 		}
 
 		return $actions;
@@ -567,10 +569,11 @@ class WP_Plugins_List_Table extends WP_List_Table {
 						/* translators: %s: plugin name */
 						$actions['activate'] = '<a href="' . wp_nonce_url( 'plugins.php?action=activate&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'activate-plugin_' . $plugin_file ) . '" class="edit" aria-label="' . esc_attr( sprintf( __( 'Network Activate %s' ), $plugin_data['Name'] ) ) . '">' . __( 'Network Activate' ) . '</a>';
 					}
+					/** Modified For SAE, by JackieAtHome (www.jackieathome.net)
 					if ( current_user_can( 'delete_plugins' ) && ! is_plugin_active( $plugin_file ) ) {
-						/* translators: %s: plugin name */
 						$actions['delete'] = '<a href="' . wp_nonce_url( 'plugins.php?action=delete-selected&amp;checked[]=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'bulk-plugins' ) . '" class="delete" aria-label="' . esc_attr( sprintf( __( 'Delete %s' ), $plugin_data['Name'] ) ) . '">' . __( 'Delete' ) . '</a>';
 					}
+					*/
 				}
 			} else {
 				if ( $restrict_network_active ) {
@@ -588,10 +591,11 @@ class WP_Plugins_List_Table extends WP_List_Table {
 					/* translators: %s: plugin name */
 					$actions['activate'] = '<a href="' . wp_nonce_url( 'plugins.php?action=activate&amp;plugin=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'activate-plugin_' . $plugin_file ) . '" class="edit" aria-label="' . esc_attr( sprintf( __( 'Activate %s' ), $plugin_data['Name'] ) ) . '">' . __( 'Activate' ) . '</a>';
 
+					/** Modified For SAE, by JackieAtHome (www.jackieathome.net)
 					if ( ! is_multisite() && current_user_can( 'delete_plugins' ) ) {
-						/* translators: %s: plugin name */
 						$actions['delete'] = '<a href="' . wp_nonce_url( 'plugins.php?action=delete-selected&amp;checked[]=' . $plugin_file . '&amp;plugin_status=' . $context . '&amp;paged=' . $page . '&amp;s=' . $s, 'bulk-plugins' ) . '" class="delete" aria-label="' . esc_attr( sprintf( __( 'Delete %s' ), $plugin_data['Name'] ) ) . '">' . __( 'Delete' ) . '</a>';
 					}
+					*/
 				} // end if $is_active
 
 			 } // end if $screen->in_admin( 'network' )
