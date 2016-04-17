@@ -357,7 +357,7 @@ function wp_save_image_file( $filename, $image, $mime_type, $post_id ) {
 			case 'image/png':
 				return imagepng($image, $tmpfile) && copy($tmpfile, $filename);// Modified For SAE, by JackieAtHome (www.jackieathome.net)
 			case 'image/gif':
-				return imagepng($image, $tmpfile) && copy($tmpfile, $filename);// Modified For SAE, by JackieAtHome (www.jackieathome.net)
+				return imagegif($image, $tmpfile) && copy($tmpfile, $filename);// Modified For SAE, by JackieAtHome (www.jackieathome.net)
 			default:
 				return false;
 		}
