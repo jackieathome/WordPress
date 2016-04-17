@@ -193,7 +193,7 @@ function wp_install_defaults( $user_id ) {
 	// Default comment
 	$first_comment_author = __('Jackie');
 	$first_comment_url = 'http://www.jackieathome.net/';
-	$first_comment = __('Hi, welcome to use WordPress For SAE. Any question or suggestion, please visit <a title="Jackie\'s Blog" href="http://www.jackieathome.net">JackieAtHome</a>');
+	$first_comment = __('Hi, welcome to use WordPress For SAE. Any question or suggestion, please visit <a title="Jackie\'s Blog" href="http://www.jackieathome.net">JackieAtHome</a>, or <a title="WordPress4SAE" href="https://github.com/jackieathome/WordPress">WordPress4SAE</a>');
 	if ( is_multisite() ) {
 		$first_comment_author = get_site_option( 'first_comment_author', $first_comment_author );
 		$first_comment_url = get_site_option( 'first_comment_url', network_home_url() );

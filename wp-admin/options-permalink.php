@@ -160,7 +160,6 @@ if ( ! is_multisite() ) {
 	_e('Permalink structure updated.');
 }
 */
-_e('Permalink structure updated.');
 ?>
 </p></div>
 <?php endif; ?>
