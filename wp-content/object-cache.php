@@ -370,29 +370,14 @@ class WP_Object_Cache {
 		if ( isset($memcached_servers) )
 			$buckets = $memcached_servers;
 		else
-			$buckets = array('127.0.0.1:11211');
+			$buckets = array('127.0.0.1');
 
 		reset($buckets);
 		if ( is_int( key($buckets) ) )
 			$buckets = array('default' => $buckets);
 
 		foreach ( $buckets as $bucket => $servers) {
-			$this->mc[$bucket] = new Memcache();
-			foreach ( $servers as $server  ) {
-				if ( 'unix://' == substr( $server, 0, 7 ) ) {
-					$node = $server;
-					$port = 0;
-				} else {
-					list ( $node, $port ) = explode(':', $server);
-					if ( !$port )
-						$port = ini_get('memcache.default_port');
-					$port = intval($port);
-					if ( !$port )
-						$port = 11211;
-				}
-				$this->mc[$bucket]->addServer($node, $port, true, 1, 1, 15, true, array($this, 'failure_callback'));
-				$this->mc[$bucket]->setCompressThreshold(20000, 0.2);
-			}
+			$this->mc[$bucket] = memcache_init();
 		}
 
 		global $blog_id, $table_prefix;
