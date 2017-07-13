@@ -10,9 +10,8 @@
  * WordPress Image Editor Class for Image Manipulation through Imagick PHP Module
  *
  * @since 3.5.0
- * @package WordPress
- * @subpackage Image_Editor
- * @uses WP_Image_Editor Extends class
+ *
+ * @see WP_Image_Editor
  */
 class WP_Image_Editor_Imagick extends WP_Image_Editor {
 	/**
@@ -73,6 +72,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			'rotateimage',
 			'flipimage',
 			'flopimage',
+			'readimage',
 		);
 
 		// Now, test for deep requirements within Imagick.
@@ -137,12 +137,18 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		if ( ! is_file( $this->file ) && ! preg_match( '|^https?://|', $this->file ) )
 			return new WP_Error( 'error_loading_image', __('File doesn&#8217;t exist?'), $this->file );
 
-		/** This filter is documented in wp-includes/class-wp-image-editor-imagick.php */
-		// Even though Imagick uses less PHP memory than GD, set higher limit for users that have low PHP.ini limits
-		// @ini_set( 'memory_limit', apply_filters( 'image_memory_limit', WP_MAX_MEMORY_LIMIT ) );// Modified For SAE, by JackieAtHome (www.jackieathome.net)
-
 		try {
-			$this->image = new Imagick( $this->file );
+			$this->image = new Imagick();
+			$file_extension = strtolower( pathinfo( $this->file, PATHINFO_EXTENSION ) );
+			$filename = $this->file;
+
+			if ( 'pdf' == $file_extension ) {
+				$filename = $this->pdf_setup();
+			}
+
+			// Reading image after Imagick instantiation because `setResolution`
+			// only applies correctly before the image is read.
+			$this->image->readImage( $filename );
 
 			if ( ! $this->image->valid() )
 				return new WP_Error( 'invalid_image', __('File is not an image.'), $this->file);
@@ -311,7 +317,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		}
 
 		/**
-		 * Filter whether to strip metadata from images when they're resized.
+		 * Filters whether to strip metadata from images when they're resized.
 		 *
 		 * This filter only applies when resizing using the Imagick editor since GD
 		 * always strips profiles by default.
@@ -343,7 +349,7 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			 * Use resizeImage() when it's available and a valid filter value is set.
 			 * Otherwise, fall back to the scaleImage() method for resizing, which
 			 * results in better image quality over resizeImage() with default filter
-			 * settings and retains backwards compatibility with pre 4.5 functionality.
+			 * settings and retains backward compatibility with pre 4.5 functionality.
 			 */
 			if ( is_callable( array( $this->image, 'resizeImage' ) ) && $filter ) {
 				$this->image->setOption( 'filter:support', '2.0' );
@@ -376,8 +382,8 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 			 */
 			if ( is_callable( array( $this->image, 'getImageAlphaChannel' ) )
 				&& is_callable( array( $this->image, 'setImageAlphaChannel' ) )
-				&& defined( Imagick::ALPHACHANNEL_UNDEFINED )
-				&& defined( Imagick::ALPHACHANNEL_OPAQUE )
+				&& defined( 'Imagick::ALPHACHANNEL_UNDEFINED' )
+				&& defined( 'Imagick::ALPHACHANNEL_OPAQUE' )
 			) {
 				if ( $this->image->getImageAlphaChannel() === Imagick::ALPHACHANNEL_UNDEFINED ) {
 					$this->image->setImageAlphaChannel( Imagick::ALPHACHANNEL_OPAQUE );
@@ -535,6 +541,11 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		 */
 		try {
 			$this->image->rotateImage( new ImagickPixel('none'), 360-$angle );
+
+			// Normalise Exif orientation data so that display is consistent across devices.
+			if ( is_callable( array( $this->image, 'setImageOrientation' ) ) && defined( 'Imagick::ORIENTATION_TOPLEFT' ) ) {
+				$this->image->setImageOrientation( Imagick::ORIENTATION_TOPLEFT );
+			}
 
 			// Since this changes the dimensions of the image, update the size.
 			$result = $this->update_size();
@@ -723,6 +734,29 @@ class WP_Image_Editor_Imagick extends WP_Image_Editor {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Sets up Imagick for PDF processing.
+	 * Increases rendering DPI and only loads first page.
+	 *
+	 * @since 4.7.0
+	 * @access protected
+	 *
+	 * @return string|WP_Error File to load or WP_Error on failure.
+	 */
+	protected function pdf_setup() {
+		try {
+			// By default, PDFs are rendered in a very low resolution.
+			// We want the thumbnail to be readable, so increase the rendering DPI.
+			$this->image->setResolution( 128, 128 );
+
+			// Only load the first page.
+			return $this->file . '[0]';
+		}
+		catch ( Exception $e ) {
+			return new WP_Error( 'pdf_setup_failed', $e->getMessage(), $this->file );
+		}
 	}
 
 }

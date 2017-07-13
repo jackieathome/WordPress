@@ -11,6 +11,8 @@
  * Core class used to implement the WP_Term object.
  *
  * @since 4.4.0
+ *
+ * @property-read object $data Sanitized term data.
  */
 final class WP_Term {
 
@@ -134,6 +136,9 @@ final class WP_Term {
 
 		// If there isn't a cached version, hit the database.
 		if ( ! $_term || ( $taxonomy && $taxonomy !== $_term->taxonomy ) ) {
+			// Any term found in the cache is not a match, so don't use it.
+			$_term = false;
+
 			// Grab all matching terms, in case any are shared between taxonomies.
 			$terms = $wpdb->get_results( $wpdb->prepare( "SELECT t.*, tt.* FROM $wpdb->terms AS t INNER JOIN $wpdb->term_taxonomy AS tt ON t.term_id = tt.term_id WHERE t.term_id = %d", $term_id ) );
 			if ( ! $terms ) {
@@ -176,7 +181,7 @@ final class WP_Term {
 
 			// Don't return terms from invalid taxonomies.
 			if ( ! taxonomy_exists( $_term->taxonomy ) ) {
-				return new WP_Error( 'invalid_taxonomy', __( 'Invalid taxonomy' ) );
+				return new WP_Error( 'invalid_taxonomy', __( 'Invalid taxonomy.' ) );
 			}
 
 			$_term = sanitize_term( $_term, $_term->taxonomy, 'raw' );
@@ -250,7 +255,6 @@ final class WP_Term {
 				}
 
 				return sanitize_term( $data, $data->taxonomy, 'raw' );
-				break;
 		}
 	}
 }

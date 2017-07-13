@@ -10,9 +10,8 @@
  * WordPress Filesystem Class for implementing FTP Sockets.
  *
  * @since 2.5.0
- * @package WordPress
- * @subpackage Filesystem
- * @uses WP_Filesystem_Base Extends class
+ *
+ * @see WP_Filesystem_Base
  */
 class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	/**
@@ -121,8 +120,10 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 
 		$temp = wp_tempnam( $file );
 
-		if ( ! $temphandle = fopen($temp, 'w+') )
+		if ( ! $temphandle = fopen( $temp, 'w+' ) ) {
+			unlink( $temp );
 			return false;
+		}
 
 		mbstring_binary_safe_encoding();
 
@@ -468,9 +469,10 @@ class WP_Filesystem_ftpsockets extends WP_Filesystem_Base {
 	 *
 	 * @param string $path
 	 * @param bool $recursive
+	 * @return bool
 	 */
 	public function rmdir($path, $recursive = false ) {
-		$this->delete($path, $recursive);
+		return $this->delete($path, $recursive);
 	}
 
 	/**
